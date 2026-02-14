@@ -1,0 +1,105 @@
+.service-selector-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding: 0;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.service-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+
+  .dropdown-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #666;
+  }
+}
+
+.service-checkbox-group {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+
+  .service-checkbox {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    ::ng-deep .mdc-checkbox {
+      margin-right: 4px;
+    }
+
+    ::ng-deep .mat-mdc-checkbox-label {
+      font-size: 13px;
+      color: #555;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    ::ng-deep .mdc-checkbox.mdc-checkbox--selected .mdc-checkbox__background {
+      border-color: #3f51b5;
+      background-color: #3f51b5;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .service-selector-container {
+    gap: 12px;
+  }
+
+  .service-checkbox-group {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-selector-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .service-label {
+    font-size: 13px;
+    flex-shrink: 0;
+
+    .dropdown-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .service-checkbox-group {
+    gap: 10px;
+    flex: 1;
+
+    .service-checkbox {
+      ::ng-deep .mat-mdc-checkbox-label {
+        font-size: 12px;
+      }
+    }
+  }
+}
+

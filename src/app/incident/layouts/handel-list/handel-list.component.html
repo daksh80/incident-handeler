@@ -1,0 +1,74 @@
+<div class="handler-list-container">
+  <div class="filter-section">
+    <div class="filter-controls">
+        <div class="filter-label">Status</div>
+        
+      <mat-form-field appearance="outline" class="search-field">
+        <input matInput 
+          [(ngModel)]="searchText" 
+          placeholder="Search...">
+      </mat-form-field>
+
+      <button mat-raised-button class="filter-btn" (click)="onFilter()">
+        Filter
+      </button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="handlers-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>
+            Severity 
+            <mat-icon class="sort-icon">unfold_more</mat-icon>
+          </th>
+          <th>Status</th>
+          <th>Created At</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let handler of handlers" class="handler-row">
+          <td class="title-cell">{{ handler.title }}</td>
+          <td class="severity-cell">{{ handler.severity }}</td>
+          <td class="status-cell">
+            <span class="status-badge" [ngClass]="'status-' + getStatusClass(handler.status)">
+              {{ handler.status }}
+            </span>
+          </td>
+          <td class="created-at-cell">{{ handler.createdAt }}</td>
+          <td class="owner-cell">{{ handler.owner }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-container">
+    <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+
+    <button mat-button 
+      [disabled]="currentPage === 1"
+      (click)="goToPage(1)"
+      class="nav-btn">
+      &lt;&lt;
+    </button>
+
+    <button mat-button 
+      *ngFor="let page of displayPages"
+      [class.active]="page === currentPage"
+      (click)="goToPage(page)"
+      class="page-btn">
+      {{ page }}
+    </button>
+
+    <button mat-button 
+      [disabled]="currentPage === totalPages"
+      (click)="goToPage(totalPages)"
+      class="nav-btn">
+      &gt;&gt;
+    </button>
+  </div>
+</div>

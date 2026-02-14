@@ -1,1 +1,15 @@
-<p>service-selector works!</p>
+<div class="service-selector-container">
+  <label class="service-label">
+    Service
+    <mat-icon class="dropdown-icon">expand_more</mat-icon>
+  </label>
+  <div class="service-checkbox-group">
+    <mat-checkbox
+      *ngFor="let service of availableServices"
+      [checked]="isServiceSelected(service)"
+      (change)="onServiceChange(service)"
+      class="service-checkbox">
+      {{ service }}
+    </mat-checkbox>
+  </div>
+</div>

@@ -8,6 +8,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { DropDownElementComponent } from './layouts/drop-down-element/drop-down-element.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { HandelListComponent } from './layouts/handel-list/handel-list.component';
 
 
 
@@ -16,14 +22,22 @@ import { DropDownElementComponent } from './layouts/drop-down-element/drop-down-
     IncidentDashboardComponent,
     IncidentHeaderComponent,
     ServiceSelectorComponent,
-    DropDownElementComponent
+    DropDownElementComponent,
+    HandelListComponent
   ],
   imports: [
     CommonModule,
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
-    IncidentRoutingModule
+    MatCheckboxModule,
+    IncidentRoutingModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule
 ]
 })
 export class IncidentModule { }
