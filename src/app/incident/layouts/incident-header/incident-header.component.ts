@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-incident-header',
-  standalone: true,
-  imports: [],
   templateUrl: './incident-header.component.html',
-  styleUrl: './incident-header.component.scss'
+  styleUrl: './incident-header.component.scss',
+  standalone: false
 })
-export class IncidentHeaderComponent {
+export class IncidentHeaderComponent implements OnInit {
+ public title: string = "";
+  constructor() { }
+  ngOnInit(): void {
+    this.title = "Incident Management";
+  }
+ 
 
 }

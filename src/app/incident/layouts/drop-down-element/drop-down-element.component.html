@@ -1,0 +1,13 @@
+<button mat-flat-button class="incident-header__button" [matMenuTriggerFor]="incidentMenu">
+      <span class="incident-header__label"> New Incident </span>
+      <mat-icon class="incident-header__icon">
+        arrow_drop_down
+      </mat-icon>
+    </button>
+    <mat-menu #incidentMenu="matMenu">
+      @for (option of options; track option) {
+        <button mat-menu-item (click)="selectOption(option)">
+          {{ option }}
+        </button>
+      }
+</mat-menu>
