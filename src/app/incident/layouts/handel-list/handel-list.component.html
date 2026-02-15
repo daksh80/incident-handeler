@@ -1,16 +1,19 @@
 <div class="handler-list-container">
   <div class="filter-section">
     <div class="filter-controls">
-      <mat-form-field appearance="outline" class="status-dropdown">
-        <mat-select [(ngModel)]="selectedStatus" placeholder="Status">
+      <mat-form-field appearance="outline" class="status-inline-dropdown">
+        <mat-select [ngModel]="selectedStatus" (ngModelChange)="onStatusChange($event)">
+          <mat-select-trigger>
+            {{ selectedStatus ? getStatusLabel(selectedStatus) : 'Status' }}
+          </mat-select-trigger>
           <mat-option value="">All Statuses</mat-option>
-          <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
+          <mat-option *ngFor="let status of statusOptions" [value]="status">{{ getStatusLabel(status) }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" class="search-field">
-        <input matInput [(ngModel)]="searchText" (ngModelChange)="onSearchChange()" placeholder="Search..." />
+        <input matInput [ngModel]="searchText" (ngModelChange)="onSearchChange($event)" placeholder="Search..." />
       </mat-form-field>
-      <button mat-raised-button class="filter-btn" (click)="onFilter()">
+      <button mat-raised-button class="filter-btn" (click)="onFilterClick()">
         Filter
       </button>
     </div>
@@ -24,7 +27,6 @@
         <tr>
           <th (click)="onSort('title')">
             Title
-            <mat-icon class="sort-icon">unfold_more</mat-icon>
           </th>
           <th (click)="onSort('severity')">
             Severity
@@ -32,11 +34,9 @@
           </th>
           <th (click)="onSort('status')">
             Status
-            <mat-icon class="sort-icon">unfold_more</mat-icon>
           </th>
           <th (click)="onSort('createdAt')">
             Created At
-            <mat-icon class="sort-icon">unfold_more</mat-icon>
           </th>
           <th>Owner</th>
         </tr>
@@ -48,7 +48,7 @@
         <tr *ngIf="!isLoading && handlers.length === 0">
           <td colspan="5" class="empty-state">No incidents found.</td>
         </tr>
-        <tr *ngFor="let handler of handlers" class="handler-row" (click)="openIncident(handler.id)">
+        <tr *ngFor="let handler of handlers" class="handler-row" (click)="onOpenIncident(handler.id)">
           <td class="title-cell">{{ handler.title }}</td>
           <td class="severity-cell">{{ handler.severity }}</td>
           <td class="status-cell">
@@ -56,7 +56,7 @@
               {{ getStatusLabel(handler.status) }}
             </span>
           </td>
-          <td class="created-at-cell">{{ handler.createdAt }}</td>
+          <td class="created-at-cell">{{ handler.createdAt | incidentDate:'short' }}</td>
           <td class="owner-cell">{{ handler.owner }}</td>
         </tr>
       </tbody>
@@ -64,14 +64,14 @@
   </div>
   <div class="pagination-container">
     <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
-    <button mat-button [disabled]="currentPage === 1 || isLoading" (click)="goToPage(1)" class="nav-btn">
+    <button mat-button [disabled]="currentPage === 1 || isLoading" (click)="onGoToPage(1)" class="nav-btn">
       &lt;&lt;
     </button>
     <button mat-button
       *ngFor="let page of displayPages"
       [class.active]="page === currentPage"
       [disabled]="isLoading"
-      (click)="goToPage(page)"
+      (click)="onGoToPage(page)"
       class="page-btn">
       {{ page }}
     </button>
@@ -79,11 +79,11 @@
       mat-button
       *ngIf="displayPages.length && displayPages[displayPages.length - 1] !== totalPages"
       [disabled]="isLoading"
-      (click)="goToPage(totalPages)"
+      (click)="onGoToPage(totalPages)"
       class="page-btn">
       {{ totalPages }}
     </button>
-    <button mat-button [disabled]="currentPage === totalPages || isLoading" (click)="goToPage(currentPage + 1)" class="nav-btn">
+    <button mat-button [disabled]="currentPage === totalPages || isLoading" (click)="onGoToPage(currentPage + 1)" class="nav-btn">
       Next &gt;&gt;
     </button>
   </div>

@@ -43,7 +43,7 @@
         (ngModelChange)="onFieldChange('status', $event)"
         placeholder="Select Status"
       >
-        <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
+        <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status | titlecase }}</mat-option>
       </mat-select>
     </mat-form-field>
   </app-incident-field-row>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Incident } from '../models/incident.model';
 import { IncidentApiRecord, IncidentListResponse } from '../models/incident-api.model';
+import { IncidentUiService } from './incident-ui.service';
 
 interface IncidentQuery {
   page: number;
@@ -21,7 +22,10 @@ interface IncidentQuery {
 export class IncidentApiService {
   private readonly apiBase = 'http://localhost:3000/api/incidents';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly incidentUiService: IncidentUiService
+  ) {}
 
   getIncidents(query: IncidentQuery): Observable<{ data: Incident[]; pagination: IncidentListResponse['pagination'] }> {
     let params = new HttpParams()
@@ -78,8 +82,8 @@ export class IncidentApiService {
       service: record.service,
       severity: record.severity,
       status: record.status,
-      createdAt: this.formatShortDate(createdDate),
-      occurredAt: this.formatLongDate(createdDate),
+      createdAt: this.incidentUiService.formatShortDate(createdDate),
+      occurredAt: this.incidentUiService.formatLongDate(createdDate),
       owner: record.owner ?? 'unassigned',
       assignedTo: record.owner ?? '',
       summary: record.summary ?? ''
@@ -95,29 +99,5 @@ export class IncidentApiService {
       owner: incident.assignedTo || null,
       summary: incident.summary || null
     };
-  }
-
-  private formatShortDate(date: Date): string {
-    if (Number.isNaN(date.getTime())) {
-      return '';
-    }
-
-    return date.toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric'
-    });
-  }
-
-  private formatLongDate(date: Date): string {
-    if (Number.isNaN(date.getTime())) {
-      return '';
-    }
-
-    return date.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
-    });
   }
 }

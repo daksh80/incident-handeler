@@ -2,25 +2,25 @@
   display: grid;
   grid-template-columns: 220px 1fr;
   align-items: center;
-  gap: 14px;
-  padding: 14px 0;
+  gap: 12px;
+  padding: 10px 0;
   border-bottom: 1px solid #e8e8e8;
 
   &__label {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: #252525;
   }
 
   &__content {
-    font-size: 16px;
+    font-size: 15px;
     color: #2a2a2a;
   }
 
   &--stacked {
     grid-template-columns: 1fr;
     align-items: start;
-    gap: 10px;
+    gap: 8px;
   }
 }
 
@@ -29,7 +29,7 @@
     grid-template-columns: 1fr;
     align-items: start;
     gap: 8px;
-    padding: 12px 0;
+    padding: 10px 0;
 
     &__label,
     &__content {

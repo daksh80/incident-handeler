@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Incident } from '../../models/incident.model';
 import { IncidentFieldChangeEvent } from '../../layouts/incident-create-form/incident-create-form.component';
 import { IncidentApiService } from '../../services/incident-api.service';
+import { IncidentUiService } from '../../services/incident-ui.service';
 
 @Component({
   selector: 'app-incident-tracker',
@@ -10,31 +11,26 @@ import { IncidentApiService } from '../../services/incident-api.service';
   styleUrl: './incident-tracker.component.scss'
 })
 export class IncidentTrackerComponent implements OnInit {
-  incident: Incident = {
-    id: 'new',
-    title: '',
-    service: '',
-    severity: 'SEV1',
-    status: 'OPEN',
-    createdAt: '',
-    occurredAt: '',
-    owner: 'unassigned',
-    assignedTo: '',
-    summary: ''
-  };
+  incident: Incident;
   isCreateMode = false;
 
-  readonly serviceOptions: string[] = ['Backend', 'Auth', 'Payments', 'Frontend', 'Database', 'Services', 'Infrastructure', 'Security'];
-  readonly severityOptions: string[] = ['SEV1', 'SEV2', 'SEV3', 'SEV4'];
-  readonly statusOptions: string[] = ['OPEN', 'MITIGATED', 'RESOLVED'];
+  readonly serviceOptions: string[];
+  readonly severityOptions: string[];
+  readonly statusOptions: string[];
   errorMessage = '';
   private incidentId = '';
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly incidentApiService: IncidentApiService
-  ) {}
+    private readonly incidentApiService: IncidentApiService,
+    private readonly incidentUiService: IncidentUiService
+  ) {
+    this.incident = this.incidentUiService.createIncidentDraft();
+    this.serviceOptions = this.incidentUiService.serviceOptions;
+    this.severityOptions = this.incidentUiService.severityOptions;
+    this.statusOptions = this.incidentUiService.statusOptions;
+  }
 
   ngOnInit(): void {
     const incidentId = this.route.snapshot.paramMap.get('id');
@@ -43,7 +39,7 @@ export class IncidentTrackerComponent implements OnInit {
     this.isCreateMode = currentPath === 'incident-tracker/new' || resolvedIncidentId === 'new';
 
     if (this.isCreateMode) {
-      this.incident = this.createIncidentDraft();
+      this.incident = this.incidentUiService.createIncidentDraft();
       return;
     }
 
@@ -100,23 +96,8 @@ export class IncidentTrackerComponent implements OnInit {
       },
       error: () => {
         this.errorMessage = 'Unable to load incident details.';
-        this.incident = this.createIncidentDraft();
+        this.incident = this.incidentUiService.createIncidentDraft();
       }
     });
-  }
-
-  private createIncidentDraft(): Incident {
-    return {
-      id: 'new',
-      title: '',
-      service: '',
-      severity: 'SEV1',
-      status: 'OPEN',
-      createdAt: '',
-      occurredAt: '',
-      owner: 'unassigned',
-      assignedTo: '',
-      summary: ''
-    };
   }
 }

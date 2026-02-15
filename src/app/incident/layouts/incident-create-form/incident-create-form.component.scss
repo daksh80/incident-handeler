@@ -1,20 +1,20 @@
 .create-form {
   &__title {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 600;
     color: #1f1f1f;
-    margin: 0 0 6px;
+    margin: 0 0 4px;
   }
 
   &__actions {
     display: flex;
-    gap: 14px;
-    padding-top: 16px;
+    gap: 12px;
+    padding-top: 14px;
 
     button {
-      min-width: 220px;
-      height: 50px;
-      font-size: 16px;
+      min-width: 210px;
+      height: 44px;
+      font-size: 15px;
       font-weight: 600;
       border-radius: 4px;
     }
@@ -33,11 +33,11 @@
 .severity-group {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 22px;
   flex-wrap: wrap;
 
   mat-radio-button {
-    font-size: 16px;
+    font-size: 15px;
   }
 }
 
@@ -56,7 +56,7 @@
   }
 
   .mdc-text-field--outlined {
-    min-height: 52px;
+    min-height: 46px;
     background-color: #fff;
   }
 
@@ -64,13 +64,13 @@
   .mat-mdc-select-value-text,
   .mat-mdc-select-placeholder,
   textarea {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   textarea {
-    min-height: 88px;
+    min-height: 74px;
     resize: none;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 }
 

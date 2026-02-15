@@ -18,6 +18,7 @@ import { IncidentTrackerComponent } from './pages/incident-tracker/incident-trac
 import { IncidentFieldRowComponent } from './layouts/incident-field-row/incident-field-row.component';
 import { IncidentCreateFormComponent } from './layouts/incident-create-form/incident-create-form.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { IncidentDatePipe } from './pipes/incident-date.pipe';
 
 
 
@@ -30,7 +31,8 @@ import { MatRadioModule } from '@angular/material/radio';
     HandelListComponent,
     IncidentTrackerComponent,
     IncidentFieldRowComponent,
-    IncidentCreateFormComponent
+    IncidentCreateFormComponent,
+    IncidentDatePipe
   ],
   imports: [
     CommonModule,

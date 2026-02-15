@@ -35,7 +35,7 @@
         <app-incident-field-row label="Status:">
           <mat-form-field appearance="outline" class="input-field select-field">
             <mat-select [(ngModel)]="incident.status">
-              <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
+              <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status | titlecase }}</mat-option>
             </mat-select>
           </mat-form-field>
         </app-incident-field-row>
@@ -47,7 +47,7 @@
         </app-incident-field-row>
 
         <app-incident-field-row label="Occurred At:">
-          <span class="plain-text">{{ incident.occurredAt }}</span>
+          <span class="plain-text">{{ incident.occurredAt | incidentDate:'long' }}</span>
         </app-incident-field-row>
 
         <app-incident-field-row label="Summary" [stacked]="true">
