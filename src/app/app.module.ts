@@ -3,6 +3,7 @@ import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideHttpClient } from "@angular/common/http";
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
         AppComponent
     ],
     providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient()
   ],
     bootstrap: [AppComponent]
 })

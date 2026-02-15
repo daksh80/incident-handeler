@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Incident } from '../../models/incident.model';
-import { IncidentDataService } from '../../services/incident-data.service';
 import { IncidentFieldChangeEvent } from '../../layouts/incident-create-form/incident-create-form.component';
+import { IncidentApiService } from '../../services/incident-api.service';
 
 @Component({
   selector: 'app-incident-tracker',
@@ -10,17 +10,30 @@ import { IncidentFieldChangeEvent } from '../../layouts/incident-create-form/inc
   styleUrl: './incident-tracker.component.scss'
 })
 export class IncidentTrackerComponent implements OnInit {
-  incident!: Incident;
+  incident: Incident = {
+    id: 'new',
+    title: '',
+    service: '',
+    severity: 'SEV1',
+    status: 'OPEN',
+    createdAt: '',
+    occurredAt: '',
+    owner: 'unassigned',
+    assignedTo: '',
+    summary: ''
+  };
   isCreateMode = false;
 
   readonly serviceOptions: string[] = ['Backend', 'Auth', 'Payments', 'Frontend', 'Database', 'Services', 'Infrastructure', 'Security'];
   readonly severityOptions: string[] = ['SEV1', 'SEV2', 'SEV3', 'SEV4'];
-  readonly statusOptions: string[] = ['Open', 'In Progress', 'Resolved', 'Closed'];
+  readonly statusOptions: string[] = ['OPEN', 'MITIGATED', 'RESOLVED'];
+  errorMessage = '';
+  private incidentId = '';
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly incidentDataService: IncidentDataService
+    private readonly incidentApiService: IncidentApiService
   ) {}
 
   ngOnInit(): void {
@@ -30,13 +43,12 @@ export class IncidentTrackerComponent implements OnInit {
     this.isCreateMode = currentPath === 'incident-tracker/new' || resolvedIncidentId === 'new';
 
     if (this.isCreateMode) {
-      this.incident = this.incidentDataService.createNewIncidentDraft();
+      this.incident = this.createIncidentDraft();
       return;
     }
 
-    this.incident =
-      this.incidentDataService.getIncidentById(resolvedIncidentId) ??
-      this.incidentDataService.createEmptyIncident();
+    this.incidentId = resolvedIncidentId;
+    this.loadIncidentById(resolvedIncidentId);
   }
 
   get isCreateFormValid(): boolean {
@@ -56,15 +68,55 @@ export class IncidentTrackerComponent implements OnInit {
       return;
     }
 
-    this.incidentDataService.createIncident(this.incident);
-    this.router.navigate(['/incidents/incident-dashboard']);
+    this.incidentApiService.createIncident(this.incident).subscribe({
+      next: () => {
+        this.router.navigate(['/incidents/incident-dashboard']);
+      },
+      error: () => {
+        this.errorMessage = 'Unable to create incident. Please verify backend is running.';
+      }
+    });
   }
 
   saveChanges(): void {
-    this.router.navigate(['/incidents/incident-dashboard']);
+    this.incidentApiService.updateIncident(this.incidentId, this.incident).subscribe({
+      next: () => {
+        this.router.navigate(['/incidents/incident-dashboard']);
+      },
+      error: () => {
+        this.errorMessage = 'Unable to update incident. Please verify backend is running.';
+      }
+    });
   }
 
   cancel(): void {
     this.router.navigate(['/incidents/incident-dashboard']);
+  }
+
+  private loadIncidentById(id: string): void {
+    this.incidentApiService.getIncidentById(id).subscribe({
+      next: (incident) => {
+        this.incident = incident;
+      },
+      error: () => {
+        this.errorMessage = 'Unable to load incident details.';
+        this.incident = this.createIncidentDraft();
+      }
+    });
+  }
+
+  private createIncidentDraft(): Incident {
+    return {
+      id: 'new',
+      title: '',
+      service: '',
+      severity: 'SEV1',
+      status: 'OPEN',
+      createdAt: '',
+      occurredAt: '',
+      owner: 'unassigned',
+      assignedTo: '',
+      summary: ''
+    };
   }
 }

@@ -3,6 +3,8 @@
     <app-incident-header [title]="'Incident Tracker'" [showActions]="false"></app-incident-header>
 
     <div class="tracker-content">
+      <div class="tracker-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
       <app-incident-create-form
         *ngIf="isCreateMode"
         [incident]="incident"
