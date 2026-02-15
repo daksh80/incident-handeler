@@ -137,6 +137,39 @@ export class IncidentDataService {
     return incident ? { ...incident } : undefined;
   }
 
+  createIncident(incident: Incident): Incident {
+    const nextId = String(this.incidents.length + 1);
+    const today = new Date();
+    const createdAt = this.formatShortDate(today);
+    const occurredAt = this.formatLongDate(today);
+
+    const newIncident: Incident = {
+      ...incident,
+      id: nextId,
+      createdAt,
+      occurredAt,
+      owner: incident.assignedTo || 'unassigned'
+    };
+
+    this.incidents.unshift(newIncident);
+    return { ...newIncident };
+  }
+
+  createNewIncidentDraft(): Incident {
+    return {
+      id: 'new',
+      title: '',
+      service: '',
+      severity: 'SEV1',
+      status: '',
+      createdAt: '',
+      occurredAt: '',
+      owner: 'unassigned',
+      assignedTo: '',
+      summary: ''
+    };
+  }
+
   createEmptyIncident(): Incident {
     return {
       id: 'new',
@@ -150,5 +183,20 @@ export class IncidentDataService {
       assignedTo: '',
       summary: ''
     };
+  }
+
+  private formatShortDate(date: Date): string {
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
+  private formatLongDate(date: Date): string {
+    return date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
   }
 }

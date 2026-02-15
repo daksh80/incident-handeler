@@ -1,0 +1,80 @@
+<div class="create-form">
+  <h2 class="create-form__title">Create New Incident</h2>
+
+  <app-incident-field-row label="Title" [stacked]="true">
+    <mat-form-field appearance="outline" class="full-width-field">
+      <input
+        matInput
+        [ngModel]="incident.title"
+        (ngModelChange)="updateField('title', $event)"
+        placeholder="Issue Title..."
+      />
+    </mat-form-field>
+  </app-incident-field-row>
+
+  <app-incident-field-row label="Service" [stacked]="true">
+    <mat-form-field appearance="outline" class="full-width-field">
+      <mat-select
+        [ngModel]="incident.service"
+        (ngModelChange)="updateField('service', $event)"
+        placeholder="Select Service"
+      >
+        <mat-option *ngFor="let service of serviceOptions" [value]="service">{{ service }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </app-incident-field-row>
+
+  <app-incident-field-row label="Severity" [stacked]="true">
+    <mat-radio-group
+      class="severity-group"
+      [ngModel]="incident.severity"
+      (ngModelChange)="updateField('severity', $event)"
+    >
+      <mat-radio-button *ngFor="let severity of severityOptions" [value]="severity">
+        {{ severity }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </app-incident-field-row>
+
+  <app-incident-field-row label="Status" [stacked]="true">
+    <mat-form-field appearance="outline" class="full-width-field">
+      <mat-select
+        [ngModel]="incident.status"
+        (ngModelChange)="updateField('status', $event)"
+        placeholder="Select Status"
+      >
+        <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </app-incident-field-row>
+
+  <app-incident-field-row label="Assigned To:">
+    <mat-form-field appearance="outline" class="inline-field">
+      <input
+        matInput
+        [ngModel]="incident.assignedTo"
+        (ngModelChange)="updateField('assignedTo', $event)"
+        placeholder="Optional"
+      />
+    </mat-form-field>
+  </app-incident-field-row>
+
+  <app-incident-field-row label="Summary" [stacked]="true">
+    <mat-form-field appearance="outline" class="full-width-field">
+      <textarea
+        matInput
+        rows="3"
+        [ngModel]="incident.summary"
+        (ngModelChange)="updateField('summary', $event)"
+        placeholder="Describe the incident..."
+      ></textarea>
+    </mat-form-field>
+  </app-incident-field-row>
+
+  <div class="create-form__actions">
+    <button mat-flat-button class="primary-btn" [disabled]="!isFormValid" (click)="onCreate()">
+      Create Incident
+    </button>
+    <button mat-stroked-button class="secondary-btn" (click)="onCancel()">Cancel</button>
+  </div>
+</div>

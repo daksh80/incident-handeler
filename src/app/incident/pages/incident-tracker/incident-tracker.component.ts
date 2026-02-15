@@ -10,7 +10,9 @@ import { IncidentDataService } from '../../services/incident-data.service';
 })
 export class IncidentTrackerComponent implements OnInit {
   incident!: Incident;
+  isCreateMode = false;
 
+  readonly serviceOptions: string[] = ['Backend', 'Auth', 'Payments', 'Frontend', 'Database', 'Services', 'Infrastructure', 'Security'];
   readonly severityOptions: string[] = ['SEV1', 'SEV2', 'SEV3', 'SEV4'];
   readonly statusOptions: string[] = ['Open', 'In Progress', 'Resolved', 'Closed'];
 
@@ -22,15 +24,27 @@ export class IncidentTrackerComponent implements OnInit {
 
   ngOnInit(): void {
     const incidentId = this.route.snapshot.paramMap.get('id');
+    const resolvedIncidentId = incidentId ?? '';
+    const currentPath = this.route.snapshot.routeConfig?.path ?? '';
+    this.isCreateMode = currentPath === 'incident-tracker/new' || resolvedIncidentId === 'new';
 
-    if (!incidentId || incidentId === 'new') {
-      this.incident = this.incidentDataService.createEmptyIncident();
+    if (this.isCreateMode) {
+      this.incident = this.incidentDataService.createNewIncidentDraft();
       return;
     }
 
     this.incident =
-      this.incidentDataService.getIncidentById(incidentId) ??
+      this.incidentDataService.getIncidentById(resolvedIncidentId) ??
       this.incidentDataService.createEmptyIncident();
+  }
+
+  onIncidentDraftChange(updatedIncident: Incident): void {
+    this.incident = updatedIncident;
+  }
+
+  createIncident(): void {
+    this.incidentDataService.createIncident(this.incident);
+    this.router.navigate(['/incidents/incident-dashboard']);
   }
 
   saveChanges(): void {

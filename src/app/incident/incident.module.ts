@@ -16,6 +16,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { HandelListComponent } from './layouts/handel-list/handel-list.component';
 import { IncidentTrackerComponent } from './pages/incident-tracker/incident-tracker.component';
 import { IncidentFieldRowComponent } from './layouts/incident-field-row/incident-field-row.component';
+import { IncidentCreateFormComponent } from './layouts/incident-create-form/incident-create-form.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 
@@ -27,7 +29,8 @@ import { IncidentFieldRowComponent } from './layouts/incident-field-row/incident
     DropDownElementComponent,
     HandelListComponent,
     IncidentTrackerComponent,
-    IncidentFieldRowComponent
+    IncidentFieldRowComponent,
+    IncidentCreateFormComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +43,7 @@ import { IncidentFieldRowComponent } from './layouts/incident-field-row/incident
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatRadioModule,
     MatButtonModule,
     MatIconModule
 ]
