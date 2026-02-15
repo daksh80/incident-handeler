@@ -167,7 +167,7 @@ app.get('/api/incidents', (req, res) => {
   const params = {};
 
   if (search) {
-    whereClauses.push('(title LIKE @search OR service LIKE @search OR IFNULL(owner, "") LIKE @search)');
+    whereClauses.push("(title LIKE @search OR service LIKE @search OR IFNULL(owner, '') LIKE @search)");
     params.search = `%${search}%`;
   }
   if (status) {

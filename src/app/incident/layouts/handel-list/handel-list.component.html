@@ -7,12 +7,6 @@
           <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="status-dropdown">
-        <mat-select [(ngModel)]="selectedSeverity" placeholder="Severity">
-          <mat-option value="">All Severities</mat-option>
-          <mat-option *ngFor="let severity of severityOptions" [value]="severity">{{ severity }}</mat-option>
-        </mat-select>
-      </mat-form-field>
       <mat-form-field appearance="outline" class="search-field">
         <input matInput [(ngModel)]="searchText" (ngModelChange)="onSearchChange()" placeholder="Search..." />
       </mat-form-field>
@@ -59,7 +53,7 @@
           <td class="severity-cell">{{ handler.severity }}</td>
           <td class="status-cell">
             <span class="status-badge" [ngClass]="'status-' + getStatusClass(handler.status)">
-              {{ handler.status }}
+              {{ getStatusLabel(handler.status) }}
             </span>
           </td>
           <td class="created-at-cell">{{ handler.createdAt }}</td>
@@ -81,8 +75,16 @@
       class="page-btn">
       {{ page }}
     </button>
-    <button mat-button [disabled]="currentPage === totalPages || isLoading" (click)="goToPage(totalPages)" class="nav-btn">
-      &gt;&gt;
+    <button
+      mat-button
+      *ngIf="displayPages.length && displayPages[displayPages.length - 1] !== totalPages"
+      [disabled]="isLoading"
+      (click)="goToPage(totalPages)"
+      class="page-btn">
+      {{ totalPages }}
+    </button>
+    <button mat-button [disabled]="currentPage === totalPages || isLoading" (click)="goToPage(currentPage + 1)" class="nav-btn">
+      Next &gt;&gt;
     </button>
   </div>
 </div>

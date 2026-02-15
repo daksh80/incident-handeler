@@ -24,9 +24,7 @@ export class HandelListComponent implements OnInit, OnDestroy {
 
   searchText = '';
   selectedStatus = '';
-  selectedSeverity = '';
   readonly statusOptions = ['OPEN', 'MITIGATED', 'RESOLVED'];
-  readonly severityOptions = ['SEV1', 'SEV2', 'SEV3', 'SEV4'];
 
   sortBy: SortBy = 'createdAt';
   sortOrder: 'asc' | 'desc' = 'desc';
@@ -93,6 +91,10 @@ export class HandelListComponent implements OnInit, OnDestroy {
     return status.toLowerCase().replace(/\//g, '').replace(/\s+/g, '');
   }
 
+  getStatusLabel(status: string): string {
+    return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+  }
+
   private loadIncidents(): void {
     this.isLoading = true;
     this.errorMessage = '';
@@ -103,7 +105,6 @@ export class HandelListComponent implements OnInit, OnDestroy {
         limit: this.pageSize,
         search: this.searchText.trim(),
         status: this.selectedStatus,
-        severity: this.selectedSeverity,
         sortBy: this.sortBy,
         order: this.sortOrder,
       })
@@ -129,7 +130,7 @@ export class HandelListComponent implements OnInit, OnDestroy {
 
   private getPageRange(): number[] {
     const pages: number[] = [];
-    const maxPages = 5;
+    const maxPages = 3;
     let startPage = Math.max(1, this.currentPage - 2);
     let endPage = Math.min(this.totalPages, this.currentPage + 2);
 
