@@ -1,20 +1,17 @@
 <div class="handler-list-container">
   <div class="filter-section">
     <div class="filter-controls">
-        <div class="filter-label">Status</div>
-        
+        <div class="filter-label">Status</div> 
       <mat-form-field appearance="outline" class="search-field">
         <input matInput 
           [(ngModel)]="searchText" 
           placeholder="Search...">
       </mat-form-field>
-
       <button mat-raised-button class="filter-btn" (click)="onFilter()">
         Filter
       </button>
     </div>
   </div>
-
   <div class="table-container">
     <table class="handlers-table">
       <thead>
@@ -30,9 +27,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let handler of handlers" class="handler-row">
+        <tr *ngFor="let handler of handlers" class="handler-row" (click)="openIncident(handler.id)">
           <td class="title-cell">{{ handler.title }}</td>
-          <td class="severity-cell">{{ handler.severity }}</td>
+          <td class="severity-cell">{{ handler.service }}</td>
           <td class="status-cell">
             <span class="status-badge" [ngClass]="'status-' + getStatusClass(handler.status)">
               {{ handler.status }}
@@ -44,18 +41,14 @@
       </tbody>
     </table>
   </div>
-
-  <!-- Pagination -->
   <div class="pagination-container">
     <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
-
     <button mat-button 
       [disabled]="currentPage === 1"
       (click)="goToPage(1)"
       class="nav-btn">
       &lt;&lt;
     </button>
-
     <button mat-button 
       *ngFor="let page of displayPages"
       [class.active]="page === currentPage"
@@ -63,7 +56,6 @@
       class="page-btn">
       {{ page }}
     </button>
-
     <button mat-button 
       [disabled]="currentPage === totalPages"
       (click)="goToPage(totalPages)"

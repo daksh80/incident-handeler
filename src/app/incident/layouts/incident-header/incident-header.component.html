@@ -2,7 +2,7 @@
   <div class="incident-header__title">
     {{ title }}
   </div>
-  <div class="incident-header__actions">
-    <app-drop-down-element></app-drop-down-element>
+  <div class="incident-header__actions" *ngIf="showActions">
+    <app-drop-down-element (optionSelected)="onOptionSelected($event)"></app-drop-down-element>
   </div>
 </div>

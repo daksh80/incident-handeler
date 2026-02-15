@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-drop-down-element',
@@ -6,13 +6,15 @@ import { Component } from '@angular/core';
   styleUrl: './drop-down-element.component.scss'
 })
 export class DropDownElementComponent {
- options: string[] = [
+  @Output() optionSelected = new EventEmitter<string>();
+
+  options: string[] = [
     'Create Incident',
     'Import Incident',
     'Bulk Upload'
   ];
 
   selectOption(option: string) {
-    console.log(option);
+    this.optionSelected.emit(option);
   }
 }

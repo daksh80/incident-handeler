@@ -14,6 +14,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { HandelListComponent } from './layouts/handel-list/handel-list.component';
+import { IncidentTrackerComponent } from './pages/incident-tracker/incident-tracker.component';
+import { IncidentFieldRowComponent } from './layouts/incident-field-row/incident-field-row.component';
 
 
 
@@ -23,7 +25,9 @@ import { HandelListComponent } from './layouts/handel-list/handel-list.component
     IncidentHeaderComponent,
     ServiceSelectorComponent,
     DropDownElementComponent,
-    HandelListComponent
+    HandelListComponent,
+    IncidentTrackerComponent,
+    IncidentFieldRowComponent
   ],
   imports: [
     CommonModule,
