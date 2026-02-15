@@ -9,9 +9,10 @@
         [serviceOptions]="serviceOptions"
         [severityOptions]="severityOptions"
         [statusOptions]="statusOptions"
-        (incidentChange)="onIncidentDraftChange($event)"
-        (createIncident)="createIncident()"
-        (cancelIncident)="cancel()"
+        [disableCreate]="!isCreateFormValid"
+        (fieldChange)="onDraftFieldChange($event)"
+        (createClicked)="createIncident()"
+        (cancelClicked)="cancel()"
       ></app-incident-create-form>
 
       <ng-container *ngIf="!isCreateMode">

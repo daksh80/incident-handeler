@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Incident } from '../../models/incident.model';
 import { IncidentDataService } from '../../services/incident-data.service';
+import { IncidentFieldChangeEvent } from '../../layouts/incident-create-form/incident-create-form.component';
 
 @Component({
   selector: 'app-incident-tracker',
@@ -38,11 +39,23 @@ export class IncidentTrackerComponent implements OnInit {
       this.incidentDataService.createEmptyIncident();
   }
 
-  onIncidentDraftChange(updatedIncident: Incident): void {
-    this.incident = updatedIncident;
+  get isCreateFormValid(): boolean {
+    if (!this.isCreateMode) {
+      return true;
+    }
+
+    return Boolean(this.incident.title.trim() && this.incident.service && this.incident.status);
+  }
+
+  onDraftFieldChange(event: IncidentFieldChangeEvent): void {
+    this.incident = { ...this.incident, [event.field]: event.value };
   }
 
   createIncident(): void {
+    if (!this.isCreateFormValid) {
+      return;
+    }
+
     this.incidentDataService.createIncident(this.incident);
     this.router.navigate(['/incidents/incident-dashboard']);
   }

@@ -6,7 +6,7 @@
       <input
         matInput
         [ngModel]="incident.title"
-        (ngModelChange)="updateField('title', $event)"
+        (ngModelChange)="onFieldChange('title', $event)"
         placeholder="Issue Title..."
       />
     </mat-form-field>
@@ -16,7 +16,7 @@
     <mat-form-field appearance="outline" class="full-width-field">
       <mat-select
         [ngModel]="incident.service"
-        (ngModelChange)="updateField('service', $event)"
+        (ngModelChange)="onFieldChange('service', $event)"
         placeholder="Select Service"
       >
         <mat-option *ngFor="let service of serviceOptions" [value]="service">{{ service }}</mat-option>
@@ -28,7 +28,7 @@
     <mat-radio-group
       class="severity-group"
       [ngModel]="incident.severity"
-      (ngModelChange)="updateField('severity', $event)"
+      (ngModelChange)="onFieldChange('severity', $event)"
     >
       <mat-radio-button *ngFor="let severity of severityOptions" [value]="severity">
         {{ severity }}
@@ -40,7 +40,7 @@
     <mat-form-field appearance="outline" class="full-width-field">
       <mat-select
         [ngModel]="incident.status"
-        (ngModelChange)="updateField('status', $event)"
+        (ngModelChange)="onFieldChange('status', $event)"
         placeholder="Select Status"
       >
         <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
@@ -53,7 +53,7 @@
       <input
         matInput
         [ngModel]="incident.assignedTo"
-        (ngModelChange)="updateField('assignedTo', $event)"
+        (ngModelChange)="onFieldChange('assignedTo', $event)"
         placeholder="Optional"
       />
     </mat-form-field>
@@ -65,16 +65,16 @@
         matInput
         rows="3"
         [ngModel]="incident.summary"
-        (ngModelChange)="updateField('summary', $event)"
+        (ngModelChange)="onFieldChange('summary', $event)"
         placeholder="Describe the incident..."
       ></textarea>
     </mat-form-field>
   </app-incident-field-row>
 
   <div class="create-form__actions">
-    <button mat-flat-button class="primary-btn" [disabled]="!isFormValid" (click)="onCreate()">
+    <button mat-flat-button class="primary-btn" [disabled]="disableCreate" (click)="onCreateClick()">
       Create Incident
     </button>
-    <button mat-stroked-button class="secondary-btn" (click)="onCancel()">Cancel</button>
+    <button mat-stroked-button class="secondary-btn" (click)="onCancelClick()">Cancel</button>
   </div>
 </div>

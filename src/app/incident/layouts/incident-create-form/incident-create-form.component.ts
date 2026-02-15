@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Incident } from '../../models/incident.model';
 
+export interface IncidentFieldChangeEvent {
+  field: keyof Incident;
+  value: string;
+}
+
 @Component({
   selector: 'app-incident-create-form',
   templateUrl: './incident-create-form.component.html',
@@ -11,28 +16,21 @@ export class IncidentCreateFormComponent {
   @Input() serviceOptions: string[] = [];
   @Input() severityOptions: string[] = [];
   @Input() statusOptions: string[] = [];
+  @Input() disableCreate = false;
 
-  @Output() incidentChange = new EventEmitter<Incident>();
-  @Output() createIncident = new EventEmitter<void>();
-  @Output() cancelIncident = new EventEmitter<void>();
+  @Output() fieldChange = new EventEmitter<IncidentFieldChangeEvent>();
+  @Output() createClicked = new EventEmitter<void>();
+  @Output() cancelClicked = new EventEmitter<void>();
 
-  get isFormValid(): boolean {
-    return Boolean(this.incident.title.trim() && this.incident.service && this.incident.status);
+  onFieldChange(field: keyof Incident, value: string): void {
+    this.fieldChange.emit({ field, value });
   }
 
-  updateField<K extends keyof Incident>(field: K, value: Incident[K]): void {
-    this.incidentChange.emit({ ...this.incident, [field]: value });
+  onCreateClick(): void {
+    this.createClicked.emit();
   }
 
-  onCreate(): void {
-    if (!this.isFormValid) {
-      return;
-    }
-
-    this.createIncident.emit();
-  }
-
-  onCancel(): void {
-    this.cancelIncident.emit();
+  onCancelClick(): void {
+    this.cancelClicked.emit();
   }
 }
