@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { Incident } from '../models/incident.model';
 import { IncidentApiRecord, IncidentListResponse } from '../models/incident-api.model';
 import { IncidentUiService } from './incident-ui.service';
+import { environment } from '../../../environments/environment';
 
 interface IncidentQuery {
   page: number;
@@ -20,7 +21,7 @@ interface IncidentQuery {
   providedIn: 'root'
 })
 export class IncidentApiService {
-  private readonly apiBase = 'http://localhost:3000/api/incidents';
+  private readonly apiBase = environment.apiBaseUrl;
 
   constructor(
     private readonly http: HttpClient,
